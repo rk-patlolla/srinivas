@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,8 +13,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
 @Table(name="group_details")
+@EntityListeners(AuditingEntityListener.class)
 public class Group {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -26,11 +34,21 @@ public class Group {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="created_date",updatable=false)
+	@CreatedDate
 	private Date createdDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="updated_date")
+	@LastModifiedDate
 	private Date updatedDate;
+	
+	@CreatedBy
+	@Column(name="created_by",nullable = false, updatable = false)
+	private String createdBy;
+
+	@LastModifiedBy
+	@Column(name="modified_by",nullable = false)
+	private String modifiedBy;
 	
 	@Column(name="status_flag",updatable=false)
 	private boolean status;
@@ -75,12 +93,30 @@ public class Group {
 		this.status = status;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
 	@Override
 	public String toString() {
 		return "Group [groupId=" + groupId + ", groupName=" + groupName + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + ", status=" + status + "]";
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy
+				+ ", status=" + status + "]";
 	}
+
+
 	
 	
 

@@ -19,9 +19,6 @@ $(document).ready(function() {
 
 });
 function validate() {
-	
-	//alert("Edit Page"+$('#groupName').val());
-
 	if ($('#userName').val() == "" || $('#userName').val() == null) {
 		alert("Please User Name");
 		$("#userName").focus();
@@ -29,33 +26,39 @@ function validate() {
 	}
 }
 </script>
+<style type="text/css">
+.userTitle {
+	margin-top: 140px;
+	font-weight: bold;
+	color: cornflowerblue;
+}
+
+.form-control.textWidth {
+	width: 300px;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="../menu/header.jsp"></jsp:include>
 	<jsp:include page="../menu/menu.jsp"></jsp:include>
 	<form:form action="/updateUser" method="POST" modelAttribute="userObj">
 		<c:if test="${not empty usersList }">
-			<div align="center" style="margin-top: 140px;">
-				<div align="center"
-					style="margin-top: 140px; font-weight: bold; color: cornflowerblue;">
+			<div align="center">
+				<div align="center" class="userTitle">
 					<h4>UPDATE USER DETAILS</h4>
 				</div>
 				<div class="form-group">
-				<form:hidden path="userId" value='${usersList.userId}'/>
- 				<label for="userName">User Name</label>
-					<form:input path="userName" class="form-control textWidth"
-						id="userName" value='${usersList.userName}' style="width: 300px;" />
+					<form:hidden path="userId" value='${usersList.userId}' />
+					<label for="userName">User Name</label>
+					<form:input path="userName" class="form-control textWidth" id="userName" value='${usersList.userName}'/>
 					<label for="userEmail">Email</label>
-					<form:input path="userEmail" class="form-control textWidth"
-						id="userEmail" value='${usersList.userEmail}'
-						style="width: 300px;" />
+					<form:input path="userEmail" class="form-control textWidth" id="userEmail" value='${usersList.userEmail}'/>
 					<label for="userMobile">Mobile Number</label>
-					<form:input path="userMobile" class="form-control textWidth"
-						id="userMobile" value='${usersList.userMobile}'
-						style="width: 300px;" />
+					<form:input path="userMobile" class="form-control textWidth" id="userMobile" value='${usersList.userMobile}'/>
+				    <form:hidden path="role" value='${usersList.role}' />
+					<form:hidden path="password" value='${usersList.password}' />
 				</div>
-				<form:button type="submit" class="btn btn-default"
-					onclick="return validate();">Update</form:button>
+				<form:button type="submit" class="btn btn-default" onclick="return validate();">Update</form:button>
 				<a href="/adminHome" class="btn btn-default">Back</a>
 			</div>
 		</c:if>

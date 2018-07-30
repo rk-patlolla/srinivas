@@ -23,33 +23,40 @@ function validate() {
 	//alert("Edit Page"+$('#groupName').val());
 
 	if ($('#groupName').val() == "" || $('#groupName').val() == null) {
-		alert("Please Group Name");
+		alert("Group Name should not blank");
 		$("#groupName").focus();
 		return false;
 	}
 }
 
 </script>
+<style type="text/css">
+.userTitle {
+	margin-top: 140px;
+	font-weight: bold;
+	color: cornflowerblue;
+}
+
+.form-control.textWidth {
+	width: 300px;
+}
+</style>
 </head>
 <body>
 	<jsp:include page="../menu/header.jsp"></jsp:include>
-	<form:form action="/updateGroup" method="POST"
-		modelAttribute="groupObj">
+	<jsp:include page="../menu/menu.jsp"></jsp:include>
+	<form:form action="/updateGroup" method="POST" modelAttribute="groupObj">
 		<c:if test="${not empty editGroupObj }">
-			<div align="center" style="margin-top: 140px;">
-				<div align="center"
-					style="margin-top: 140px; font-weight: bold; color: cornflowerblue;">
-					<h3>UPDATE FORM</h3>
+			<div align="center">
+				<div align="center" class="userTitle">
+				<h3>UPDATE GROUP DETAILS</h3>
 				</div>
 				<div class="form-group">
 					<form:hidden path="groupId"  value='${editGroupObj.groupId}'/>
      				<label for="groupName">Group Name</label>
-					<form:input path="groupName" class="form-control textWidth"
-						id="groupName" value='${editGroupObj.groupName}'
-						style="width: 300px;" />
+					<form:input path="groupName" class="form-control textWidth" id="groupName" value='${editGroupObj.groupName}'/>
 				</div>
-				<form:button type="submit" class="btn btn-default"
-					onclick="return validate();">Update</form:button>
+				<form:button type="submit" class="btn btn-default" onclick="return validate();">Update</form:button>
 				<a href="/adminHome" class="btn btn-default">Back</a>
 			</div>
 		</c:if>

@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -39,30 +38,42 @@
 		height: auto;
 	}
 }
+
+.error {
+	color: #ff0000;
+	font-weight: bold;
+}
+
+.signIn {
+	background-color: #0784bf;
+	margin-right: 569px;
+    margin-left: 568px;
+	height: 40px;
+	border-radius: 5px;
+	color: antiquewhite;
+}
+.form-control.textWidth {
+	width: 300px;
+}
 </style>
 
 </head>
 <body>
 	<jsp:include page="../menu/header.jsp"></jsp:include>
-
-	<div align="center"
-		style="font-weight: bold; font-size: 20px; color: cornflowerblue; margin-top: 22px;">Sample
-		Group And Users Application</div>
+      
 	<div align="center" style="margin-top: 120px;">
+	<div align="center" class="error">${errorMsg}</div>
+	<div align="center" class="error">${msg}</div>
+	<div class="signIn">SIGN IN</div>
 		<div class="">
-			<form method="POST" action="/adminHome">
+			<form method="POST" action="/login">
 				<div class="form-group">
-					<label for="uesrId">UserId:</label> <input type="text" id="userId"
-						class="form-control" name="uesrId" placeholder="Enter UserId"
-						style="width: 350px;" />
+					<label for="uesrId">UserId:</label> <input type="text" id="userId" class="form-control textWidth" name="username" placeholder="Enter UserId" />
 				</div>
 				<div class="form-group">
-					<label for="pwd">Password:</label> <input type="password"
-						class="form-control" id="pwd" name="pwd"
-						placeholder="Enter password" style="width: 350px;" />
+					<label for="pwd">Password:</label> <input type="password" class="form-control textWidth" id="pwd" name="password" placeholder="Enter password"/>
 				</div>
-<%--  				<input type="hidden" name="${_csrf.parameterName}"    value="${_csrf.token}" />
- --%> 				<button type="submit" class="btn btn-default">Submit</button>
+ 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>
 		</div>
 	</div>

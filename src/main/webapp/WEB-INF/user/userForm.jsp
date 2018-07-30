@@ -16,57 +16,52 @@
 <title>Insert title here</title>
 
 <style type="text/css">
-.textWidth {
-	width: 430px;
+.form-control.textWidth {
+	width: 300px;
 }
-
 .error {
 	color: #ff0000;
 	font-weight: bold;
+}
+.userTitle {
+	margin-top: 140px;
+	font-weight: bold;
+	color: cornflowerblue;
 }
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#userEmail').keyup(function(){
 			var email=$(this).val();
-			//alert(email);
 			if(email.length>=3){
 				$.ajax({
 					type:"post",
-					url: "${pageContext.request.contextPath}/checkNameOrMobileOrEmail",
+					url: "/checkNameOrMobileOrEmail",
 					data:"name="+email,
 					success:function(response){	
 						if(response=="available"){
-							//alert("inside if: "+response);
 						$('#emailTest').html("Email Already Exists!");
 						}else{
-							//alert("inside else: "+response);
 						$('#emailTest').html("Available");
 						}
 					},
 					error:function(err){
 						$('#emailTest').html("ERROR");
-						alert(err);
 					}
 				});
-				
 			}
-			
 		})
 		$('#userMobile').keyup(function(){
 			var mobile=$(this).val();
-			//alert(email);
-			if(mobile.length>=5){
+			if(mobile.length==10){
 				$.ajax({
 					type:"post",
-					url: "${pageContext.request.contextPath}/checkNameOrMobileOrEmail",
+					url: "/checkNameOrMobileOrEmail",
 					data:"name="+mobile,
 					success:function(response){	
 						if(response=="available"){
-							//alert("inside if: "+response);
 						$('#mobileTest').html("Mobile Numbers Already Exists!");
 						}else{
-							//alert("inside else: "+response);
 						$('#mobileTest').html("Available");
 						}
 					},
@@ -75,43 +70,35 @@
 						alert(err);
 					}
 				});
-				
 			}
-			
 		})
 	});
 
 
 	function validate() {
-
 		if ($('#userName').val() == "" || $('#userName').val() == null) {
 			alert("Please User Name");
 			$("#userName").focus();
 			return false;
 		}
-
 		if ($('#userEmail').val() == "" || $('#userEmail').val() == null) {
 
 			alert("Please Email Address");
 			$("#userEmail").focus();
-
 			return false;
 		}
 		if ($('#userMobile').val() == "" || $('#userMobile').val() == null) {
-
 			alert("Please Enter Mobile Number");
 			$("#userMobile").focus();
 			return false;
 		}
 		if ($('#role').val() == "NONE" || $('#role').val() == null) {
-
 			alert("Please select role");
 			$("#role").focus();
 			return false;
 		}
 		if ($('#password').val() == "" || $('#password').val() == null) {
-
-			alert("Please select role");
+			alert("Please enter password");
 			$("#password").focus();
 			return false;
 		}
@@ -126,10 +113,10 @@
 </head>
 <body>
 	<jsp:include page="../menu/header.jsp"></jsp:include>
+	<jsp:include page="../menu/menu.jsp"></jsp:include>
 	<form:form action="/addUser" method="POST" modelAttribute="userObj">
-		<div align="center" style="margin-top: 140px;">
-			<div align="center"
-				style="margin-top: 140px; font-weight: bold; color: cornflowerblue;">
+		<div align="center">
+			<div align="center" class="userTitle">
 				<h3>UESER FORM</h3>
 			</div>
 			<%-- <c:if test="${not empty errMsg}">
@@ -141,25 +128,19 @@
 			<div class="form-group">
 				<form:hidden path="groupModel" value="${groupId}" />
 				<label for="userName">User Name:</label>
-				<form:input path="userName" class="form-control textWidth"
-					id="userName" placeholder="Enter user name" style="width: 300px;" />
+				<form:input path="userName" class="form-control textWidth" id="userName" placeholder="Enter user name" />
 				<form:errors path="userName" class="error"></form:errors>
 			</div>
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<form:input path="userEmail" type="email"
-					class="form-control textWidth" id="userEmail"
-					placeholder="Enter email" style="width: 300px;" />
-					<div class="form-group" id="emailTest" style="color:red;"></div>
+				<form:input path="userEmail" type="email" class="form-control textWidth" id="userEmail" placeholder="Enter email" />
+				<div class="form-group" id="emailTest" class="error"></div>
 			</div>
-			
 			<div class="form-group">
 				<label for="mobile">Mobile:</label>
-				<form:input path="userMobile" class="form-control textWidth"
-					id="userMobile" placeholder="Enter Mobile Number"
-					style="width: 300px;" />
+				<form:input path="userMobile" class="form-control textWidth" id="userMobile" placeholder="Enter Mobile Number" />
 				<form:errors path="userMobile" class="error"></form:errors>
-				<div class="form-group" id="mobileTest" style="color:red;"></div>
+				<div class="form-group" id="mobileTest" class="error"></div>
 			</div>
 			<div class="form-group">
 			<label for="role">Select Role:</label>
@@ -171,13 +152,10 @@
             </div>
             <div class="form-group">
 				<label for="password">Create Password:</label>
-				<form:input path="password" class="form-control textWidth"
-					id="password" placeholder="create password"
-					style="width: 300px;" />
+				<form:input path="password" class="form-control textWidth" id="password" placeholder="create password" />
 				<form:errors path="password" class="error"></form:errors>
 			</div>
-			<form:button type="submit" class="btn btn-default"
-				onclick="return validate();">Submit</form:button>
+			<form:button type="submit" class="btn btn-default" onclick="return validate();">Submit</form:button>
 			<a href="/adminHome" class="btn btn-default">Back</a>
 		</div>
 	</form:form>

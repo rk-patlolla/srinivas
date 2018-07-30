@@ -16,7 +16,7 @@
       <a class="navbar-brand" href="#">ROHTEK SOLUTIONS</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="/homePage">Home</a></li>
+      <li class="active"><a href="/login">Home</a></li>
       <li><a href="#"></a></li>
       <li><a href="#"></a></li>
     </ul>

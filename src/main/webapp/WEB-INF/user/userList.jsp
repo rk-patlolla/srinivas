@@ -27,13 +27,39 @@ table.th, td {
 	background-color: gray;
 	color: white;
 }
+
+.loginTitle {
+	font-weight: bold;
+	font-size: 15px;
+	margin-left: 100px;
+	color: cornflowerblue;
+}
+.userTitle {
+	font-weight: bold;
+	color: cornflowerblue;
+}
+
 }
 </style>
 <script type="text/javascript">
-	function ConfirmDelete() {
-		var confirmToDelete = confirm("Are you sure you want to delete?");
+function ConfirmDelete(userId,userName) {
+		var confirmToDelete = confirm("Are you sure you want to delete? "+userName );
 		if (confirmToDelete)
+			{
+			  $.ajax({
+			    url: '/deleteUser/' + userId,
+			    type: 'DELETE',
+			    success: function(result) {
+			        return true;
+			    }
+			}); 
+			 setTimeout(function(){
+                 location.reload(); 
+            }, 100);
+			 alert("User Deleted Successfully")
 			return true;
+			}
+			
 		else
 			return false;
 	}
@@ -44,19 +70,17 @@ table.th, td {
 	<jsp:include page="../menu/header.jsp"></jsp:include>
 		<jsp:include page="../menu/menu.jsp"></jsp:include>
 	
-	<div align="center" style="font-weight: bold; font-size: 20px;">
+	<div align="center" class="userTitle">
 		USERS DETAILS
 		<hr>
 	</div>
 	<sec:authorize access="isAuthenticated()">
-	<div
-		style="font-weight: bold; font-size: 15px; margin-left: 100px; color: cornflowerblue;">
+	<div class="loginTitle">
 		<b>Welcome <sec:authentication property="principal.username" /></b>
 	</div>
 	</sec:authorize>
 	<c:if test="${not empty Msg}">
-		<div align="center"
-			style="color: red; font-weight: bold; font-size: 15px;">${Msg}
+		<div align="center" style="color: red; font-weight: bold; font-size: 15px;">${Msg}
 		</div>
 	</c:if>
 	<c:if test="${not empty usersList }">
@@ -67,29 +91,27 @@ table.th, td {
 					<th class="textAlign">User Name</th>
 					<th class="textAlign">Email</th>
 					<th class="textAlign">Mobile</th>
-					<th class="textAlign">Created Date</th>
-					<th class="textAlign">Updated Date</th>
+					<!-- <th class="textAlign">Created Date</th>
+					<th class="textAlign">Updated Date</th> -->
 					<th class="textAlign">GroupName</th>
 					<th class="textAlign">Role</th>
 					<th class="textAlign">Action</th>
 				</tr>
 			</thead>
 			<tbody>
-
-
 				<c:forEach var="userList" items="${usersList}">
 					<tr>
 						<td>${userList.userId}</td>
 						<td>${userList.userName}</td>
 						<td>${userList.userEmail}</td>
 						<td>${userList.userMobile}</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${userList.createdDate}" /></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${userList.updatedDate}" /></td>
+						<%-- <td><fmt:formatDate pattern="yyyy-MM-dd" value="${userList.createdDate}" /></td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${userList.updatedDate}" /></td> --%>
 						<td>${userList.groupModel.groupName}</td>
 						<td>${userList.role}</td>
 						<td>
 						 <sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/editUser/${userList.userId}' />" class="btn btn-primary">Edit</a></sec:authorize> 
-						 <sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/deleteUser/${userList.userId}' />"class="btn btn-danger" onclick="return ConfirmDelete();">Delete</a></sec:authorize>
+						 <sec:authorize access="hasRole('ADMIN')"><a href="#" class="btn btn-danger" onclick="return ConfirmDelete(${userList.userId},'${userList.userName}');">Delete</a></sec:authorize>
 						</td>
 					</tr>
 				</c:forEach>
@@ -99,10 +121,6 @@ table.th, td {
 	</c:if>
 	<div align="center">
 		<a href="/adminHome" class="btn btn-success">Back</a>
-		<!--  <a
-			href="viewGroups" class="btn btn-primary">view Groups</a>
-
- -->
 	</div>
 	<jsp:include page="../menu/footer.jsp"></jsp:include>
 </body>

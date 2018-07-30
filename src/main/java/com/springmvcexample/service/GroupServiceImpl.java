@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.springmvcexample.controller.GroupController;
 import com.springmvcexample.jpa.GroupRepository;
 import com.springmvcexample.model.Group;
-import com.springmvcexample.utils.ResourceNotFoundException;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -24,9 +23,8 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Group addGroup(Group groupObj) {
 
-		groupObj.setCreatedDate(new Date());
+		//groupObj.setCreatedDate(new Date());
 		groupObj.setStatus(true);
-
 		return groupRepository.save(groupObj);
 	}
 
@@ -38,8 +36,7 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public boolean deleteGroup(Integer groupId) {
 		try {
-			Group groupObj = groupRepository.findById(groupId)
-					.orElseThrow(() -> new ResourceNotFoundException("groupId", "groupId", groupId));
+			Group groupObj = groupRepository.findById(groupId).get();
 			groupRepository.delete(groupObj);
 			return true;
 		} catch (Exception ex) {
@@ -51,13 +48,13 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public Group editGroup(Integer groupId) {
-		return groupRepository.findById(groupId)
-				.orElseThrow(() -> new ResourceNotFoundException("groupId", "groupId", groupId));
+		return groupRepository.findById(groupId).get();
+				
 	}
 
 	@Override
 	public Group updateGroup(Group groupObj) {
-		groupObj.setUpdatedDate(new Date());
+		//groupObj.setUpdatedDate(new Date());
 		return groupRepository.save(groupObj);
 
 	}

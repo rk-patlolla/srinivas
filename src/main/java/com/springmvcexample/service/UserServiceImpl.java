@@ -1,19 +1,16 @@
 package com.springmvcexample.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.springmvcexample.controller.UserController;
 import com.springmvcexample.jpa.UserRepository;
 import com.springmvcexample.model.Users;
-import com.springmvcexample.utils.ResourceNotFoundException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Users addUser(Users userObj) {
-		userObj.setCreatedDate(new Date());
+		//userObj.setCreatedDate(new Date());
 		userObj.setStatus(true);
 		logger.debug("Encypted Password : "+passwordEncoder.encode(userObj.getPassword()));
 		userObj.setPassword(passwordEncoder.encode(userObj.getPassword()));
@@ -40,14 +37,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Users editUser(Integer userId) {
-		return userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("userId", "userId", userId));
+		return userRepository.findById(userId).get();
 
 	}
 
 	@Override
 	public Users updateUser(Users userObj) {
-		userObj.setUpdatedDate(new Date());
+		//userObj.setUpdatedDate(new Date());
 		userObj.setStatus(true);
 		return userRepository.save(userObj);
 

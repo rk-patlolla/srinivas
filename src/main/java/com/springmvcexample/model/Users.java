@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +18,17 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "group_users_details")
+@EntityListeners(AuditingEntityListener.class)
 public class Users {
 
 	@Id
@@ -45,13 +55,21 @@ public class Users {
 	@Column(name = "user_password")
 	private String password;
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	@Column(name = "created_date", updatable = false)
 	private Date createdDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updated_date")
+	@LastModifiedDate
 	private Date updatedDate;
+	@CreatedBy
+	@Column(name = "created_by", nullable = false, updatable = false)
+	private String createdBy;
 
+	@LastModifiedBy
+	@Column(name = "modified_by", nullable = false)
+	private String modifiedBy;
 	@Column(name = "status_flag")
 	private boolean status;
 	@ManyToOne(cascade = CascadeType.MERGE)
@@ -138,11 +156,28 @@ public class Users {
 		this.password = password;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", userName=" + userName + ", userEmail=" + userEmail + ", userMobile="
 				+ userMobile + ", role=" + role + ", password=" + password + ", createdDate=" + createdDate
-				+ ", updatedDate=" + updatedDate + ", status=" + status + ", groupModel=" + groupModel + "]";
+				+ ", updatedDate=" + updatedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy
+				+ ", status=" + status + ", groupModel=" + groupModel + "]";
 	}
 
 }

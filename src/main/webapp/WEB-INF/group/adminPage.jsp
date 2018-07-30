@@ -30,7 +30,7 @@ table.th, td {
 </style>
 <script type="text/javascript">
 	function ConfirmDelete(groupId,groupName) {
-	alert("Group Id:"+groupId)
+	//alert("Group Id:"+groupId)
 		var confirmToDelete = confirm("Are you sure you want to delete? "+groupName );
 		if (confirmToDelete)
 			{
@@ -39,7 +39,6 @@ table.th, td {
 			    url: '/deleteGroup/' + groupId,
 			    type: 'DELETE',
 			    success: function(result) {
-			    
 			        return true;
 			    }
 			}); 
@@ -78,8 +77,8 @@ table.th, td {
 				<tr>
 					<th class="textAlign">Group Id</th>
 					<th class="textAlign">Group Name</th>
-					<th class="textAlign">Created Date</th>
-					<th class="textAlign">Updated Date</th>
+					<!-- <th class="textAlign">Created Date</th>
+					<th class="textAlign">Updated Date</th> -->
 					<th class="textAlign">Action</th>
 				</tr>
 			</thead>
@@ -88,17 +87,14 @@ table.th, td {
 					<tr>
 						<td>${list.groupId}</td>
 						<td>${list.groupName}</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${list.createdDate}" /></td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd"
-								value="${list.updatedDate}" /></td>
-						<td>
-						 <sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/getUserForm/${list.groupId}' />" class="btn btn-success">Add User</a></sec:authorize>	
-						 <sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/getByGroupId/${list.groupId}' />" class="btn btn-primary">Edit</a></sec:authorize> 
-						 <sec:authorize access="hasRole('ADMIN')"><form:form name="myform" id="myForm" modelAttribute="group">
-			                <%-- <form:button class="btn btn-danger" onclick=" return ConfirmDelete(${list.groupId},'${list.groupName}');">Delete</form:button>--%>
-						<a href="#"> <form:button class="btn btn-danger" onclick=" return ConfirmDelete(${list.groupId},'${list.groupName}');">Delete</form:button></a>
-						</form:form></sec:authorize>
+						<%-- <td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.createdDate}" /></td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${list.updatedDate}" /></td> --%>
+						<td><sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/getUserForm/${list.groupId}' />" class="btn btn-success">Add User</a>
+							</sec:authorize>
+							<sec:authorize access="hasRole('ADMIN')"><a href="<c:url value='/getByGroupId/${list.groupId}' />" class="btn btn-primary">Edit</a>
+							</sec:authorize>
+							<sec:authorize access="hasRole('ADMIN')"><a href="#" class="btn btn-danger" onclick=" return ConfirmDelete(${list.groupId},'${list.groupName}');">Delete</a>
+							</sec:authorize>
 						</td>
 					</tr>
 				</c:forEach>

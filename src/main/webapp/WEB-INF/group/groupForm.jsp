@@ -18,7 +18,7 @@
 <title>Insert title here</title>
 
 <style type="text/css">
-.textWidth {
+#groupName {
 	width: 430px;
 }
 .error {
@@ -30,18 +30,15 @@
 	$(document).ready(function() {
 		$("#groupName").keyup(function(){
 			var groupName=$(this).val();
-			//alert(groupName);
 			if(groupName.length>=3){
 				$.ajax({
 					type:"post",
-					url: "${pageContext.request.contextPath}/checkGroupName",
+					url: "/checkGroupName",
 					data:"name="+groupName,
 					success:function(response){	
 						if(response=="available"){
-							//alert("inside if: "+response);
 						$('#groupNameTest').html("Group Name Already Exists!");
 						}else{
-							//alert("inside else: "+response);
 						$('#groupNameTest').html("Available");
 						}
 					},
@@ -72,7 +69,6 @@
 <body>
 	<jsp:include page="../menu/header.jsp"></jsp:include>
 	<jsp:include page="../menu/menu.jsp"></jsp:include>
-	
 	<div align="center">
 		<form:form action="/addGroup" method="POST" modelAttribute="groupObj">
 			<div align="center"
@@ -81,14 +77,11 @@
 			</div>
 			<div class="form-group">
 				<label for="groupName">Enter Group Name</label>
-				<form:input path="groupName" class="form-control textWidth"
-					id="groupName" placeholder="Enter Group name" style="width: 300px;" />
-				<div class="form-group" id="groupNameTest" style="color:red;"></div>
+				<form:input path="groupName" class="form-control textWidth" id="groupName" placeholder="Enter Group name" />
+				<div id="groupNameTest" class="error"></div>
 				<form:errors path="groupName" class="error"></form:errors>
-			</div>
-			
-			<form:button type="submit" class="btn btn-default"
-				onclick="return validate();">Submit</form:button>
+			</div>	
+			<form:button type="submit" class="btn btn-default" onclick="return validate();">Submit</form:button>
 			<a href="/adminHome" class="btn btn-default">Back</a>
 		</form:form>
 	</div>
